@@ -12,7 +12,6 @@ import {EmployeeComponent} from './employee/employee.component';
 const routes: Routes = [
   {path:'rooms/:p1/:p2',component: RoomsComponent},
   {path:'room-detail/:url',component: RoomDetailComponent},
-  {path:'caddies',component: CaddiesComponent},
   {path:'manager_employer',component: EmployeeComponent},
   {path:'login',component: LoginComponent},
   {path:'',redirectTo:'rooms/1/0',pathMatch:'full'}
