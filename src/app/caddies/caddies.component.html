@@ -1,0 +1,32 @@
+<div class="panel panel-default margingBotTop">
+<div class="panel panel-heading ">
+  <div class="panel-heading">Caddies
+  </div>
+  <div class="panel-body">
+    <table class="table table-striped" >
+      <tr>
+        <th>ID</th><th>TITLE</th><th>Quantity</th><th>Price</th>
+      </tr>
+      <tr *ngFor="let bi of caddyService.getCurrentCaddy().items.values()">
+        <td>{{bi.book.id}}</td>
+        <td>{{bi.book.title}}</td>
+        <td>{{bi.quantity}}</td>
+        <td>{{bi.price}}</td>
+
+        <td>
+          <button class="btn btn-danger" >
+            <span class="glyphicon glyphicon-remove"></span>
+          </button>
+
+        </td>
+      </tr>
+      <tr>
+        <td colspan="3">Total</td>
+        <td>{{caddyService.getTotal()}}</td>
+      </tr>
+    </table>
+    <button class="btn btn-success" (click)="onNewOrder()">Commander</button>
+  </div>
+
+</div>
+</div>

@@ -1,0 +1,105 @@
+<!--/////////////////////////////////////////////////-->
+
+
+<div class="w3-main w3-content w3-padding" style="max-width:1200px;margin-top:100px;">
+
+
+
+
+  <!--///////////////////////////////////debut///////////////////////////////////////////////-->
+<!--  <form #searchRoomForm="ngForm" (ngSubmit)="onChercher(searchRoomForm.value)">-->
+
+
+
+<!--    <div class="form-group" style="width:50%; margin:0 auto;">-->
+<!--      <div class="row">-->
+<!--        <div class="col-md-4">-->
+<!--          <select class="form-control selecType" name="type" required [(ngModel)]="displayType"><option *ngFor="let type of types" [value]="type">{{type}}</option></select>-->
+<!--        </div>-->
+<!--        <div *ngIf="displayType==='RoomNumber'" class="col-md-6"><input name="roomNumber" class="form-control" type="text" required placeholder="roomNumber" [(ngModel)]=roomNumber></div>-->
+<!--        <div *ngIf="displayType==='Title'" class="col-md-6"><input name="title" class="form-control" type="text" required placeholder="title" [(ngModel)]=title></div>-->
+<!--        <div *ngIf="displayType==='Bed'" class="col-md-6"><input name="bed" class="form-control" type="text" required placeholder="bed" [(ngModel)]=bed></div>-->
+<!--        <button type="submit" class="btn btn-primary col-md-2" >chercher</button>-->
+<!--        &lt;!&ndash;<input value="Search" class="search-submit-button" type=submit [disabled]="!searchBookForm.form.valid"/>&ndash;&gt;-->
+<!--      </div>-->
+<!--    </div>-->
+
+<!--  </form>-->
+
+  <!--/////////////////////////////////////fin//////////////////////////////////////////////-->
+
+
+
+  <div *ngIf="roomsResult">
+
+    <div   *ngFor="let r of roomsResult._embedded.rooms">
+
+      <img src="" style="width:100%" />
+      <img height="100" src="{{this.catalogueService.host+'/photoRoom/'+r.id+'?ts='+getTS()}}" />
+      <h2>{{r.title}}</h2>
+      <p>Lorem ipsum text praesent tincidunt ipsum lipsum.</p>
+    </div>
+
+  </div>
+  <br>
+  <!--////////////////////////////////debut///////-->
+  <div *ngIf="rooms2">
+    <div><h2>{{messageTitle}}</h2></div>
+
+    <div *ngFor="let r of rooms2._embedded.rooms">
+      <div class="col-md-4">
+        <div class="panel panel-default heigted">
+          <div class="panel-heading">{{r.title}}</div>
+          <div class="panel-body">
+            <img class="img-thumbnail img-rounded btn" (click)="onRoomDetails(r)" [src]="this.catalogueService.host+'/photoRoom/'+r.id+'?ts='+getTS()" />
+            <!--{{this.catalogueService.host+'/photoRoom/'+r.id+'?ts='+getTS()}}"-->
+            <div *ngIf="isAdmin()">
+              <p ><button (click)="onEditPhoto(r)">
+                <span class="glyphicon glyphicon-edit"></span>
+              </button>
+              </p>
+              <p *ngIf="editPhoto && currentRoom==r">
+                <input type="file" (change)="onSelectedFile($event)">
+                <button class="btn btn-success " (click)="uploadPhoto()">Upload</button>
+
+              </p>
+            </div>
+            <div>
+              {{progress}}
+            </div>
+            <div>Bed :
+              {{r.bed}}
+            </div>
+            <div>
+              {{r.currentPrice | number:'0.2'}}
+            </div>
+            <div>
+        <span *ngIf="r.promotion">
+                <img src="assets/images/promo.png" class="img-thumbnail img-circle" height="30">
+              </span>
+              <span *ngIf="r.selected">
+                <img src="assets/images/favorite.png" class="img-thumbnail img-circle" height="30">
+              </span>
+              <span *ngIf="r.available">
+                <img src="assets/images/available.png" class="img-thumbnail img-circle"  height="30">
+              </span>
+            </div>
+            <div>
+              <form #f="ngForm" (ngSubmit)="onAddRoomToCaddy(r)">
+                <label class="control-label">Quantité :</label>
+                <input type="number" name="quantity" [(ngModel)]="r.quantity" ngModel style="width: 40px">
+                <button>
+                  <img src="assets/images/caddy.png">
+                </button>
+              </form>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+

@@ -1,0 +1,36 @@
+<nav class="w3-sidebar w3-bar-block w3-card w3-top w3-xlarge w3-animate-left"
+     style="display:none;z-index:2;width:30%;min-width:300px" id="mySidebar" *ngIf="roomtypes">
+  <ul>
+    <li><a href="javascript:void(0)" onclick="w3_close()"
+           class="w3-bar-item w3-button">Close Menu</a></li>
+    <li>Type d'hebergement</li>
+    <li [ngClass]="currentRoomtype==rt?'active':' '" (click)="getRoomsByRoomtype(rt)"
+        class="w3-bar-item w3-button" *ngFor="let rt of roomtypes._embedded.roomtypes">
+
+      <a onclick="w3_close()"> {{rt.name}}</a>
+    </li>
+  </ul>
+
+  <ul>
+    <li class="clickable" (click)="onRoomsPromo()"><a onclick="w3_close()">En promotion</a></li>
+    <li class="clickable" (click)="onRoomsDispo()"><a onclick="w3_close()">Disponible</a></li>
+  </ul>
+
+
+</nav>
+<div class="w3-top">
+  <div class="w3-white w3-xlarge" style="width:100%;">
+    <div class="w3-button w3-padding-16 w3-left" onclick="w3_open()">☰</div>
+    <div class="w3-button w3-padding-16 w3-left" onclick="w3_open()">Categories</div>
+
+    <div class="w3-right w3-padding-16">
+      <a routerLink="/caddies"><img src="assets/images/caddy.png"></a>
+      <a>{{caddyService.getCurrentCaddy().name }} | {{caddyService.getCurrentCaddy().items.size}}</a>
+      <a  (click)="onLogout()"><span class="glyphicon glyphicon-log-out"></span></a></div>
+
+    <div class="w3-center w3-padding-16 clickable" ><a routerLink="/rooms/1/0" routerLinkActive="active">Nos chambres </a>
+    <a routerLink="/rooms/2/1" routerLinkActive="active">rrrrrrr </a></div>
+  </div>
+
+
+</div>

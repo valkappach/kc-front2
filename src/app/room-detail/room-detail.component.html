@@ -1,0 +1,86 @@
+<div *ngIf="currentRoom">book
+  <div class="panel panel-default" *ngIf="mode==0">
+    <div class="panel-heading">Fiche Produit : {{currentRoom.title}}
+      <span class="glyphicon glyphicon-edit pull-right btn" (click)="onEditRoom()"></span>
+    </div>
+    <div class="panel-body">
+      <div class="col-md-5">
+        <img class="img-thumbnail" [src]="this.catalogueService.host+'/photoBook/'+currentRoom.id+'?ts='+getTS()"/>
+        <div *ngIf="this.authenticationService.isAdmin()">
+          <button *ngIf="!editPhoto" (click)="onEditPhoto(currentRoom)">
+            <span class="glyphicon glyphicon-edit"></span>
+          </button>
+          <span *ngIf="editPhoto">
+            <input type="file" (change)="onSelectedFile($event)">
+            <button class="btn btn-success btn-sm" (click)="uploadPhoto()">
+              <span class="glyphicon glyphicon-upload"></span>
+            </button>
+            {{progress}}
+          </span>
+        </div>
+
+        <div>
+        <span *ngIf="currentRoom.promotion">
+                <img src="assets/images/promo.png" class="img-thumbnail img-circle" height="30">
+              </span>
+          <span *ngIf="currentRoom.selected">
+                <img src="assets/images/favorite.png" class="img-thumbnail img-circle" height="30">
+              </span>
+          <span *ngIf="currentRoom.available">
+                <img src="assets/images/available.png" class="img-thumbnail img-circle"  height="30">
+              </span>
+        </div>
+        <div>
+          <form #f="ngForm" (ngSubmit)="onAddRoomToCaddy(currentRoom)">
+            <label class="control-label">Quantité :</label>
+            <input type="number" name="quantity" [(ngModel)]="currentRoom.quantity" ngModel style="width: 40px">
+            <button>
+              <img src="assets/images/caddy.png">
+            </button>
+          </form>
+        </div>
+
+      </div>
+      <div class="col-md-7">
+        <div class="panel panel-default" style="min-height: 300px">
+          <div class="panel-body">
+            <label>Price : {{currentRoom.currentPrice|number:'0.00'}}</label>
+          </div>
+          <div class="panel-body">
+            Description :{{currentRoom.description}}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="mode==1">
+    <form #f="ngForm" (ngSubmit)="onUpdateRoom(f.value)">
+      <div class="form-group">
+        <label class="control-label">Name:</label>
+        <input type="text" name="name" ngModel [(ngModel)]="currentRoom.title" class="form-control">
+      </div>
+      <div class="form-group">
+        <label class="control-label">Description:</label>
+        <textarea name="description" ngModel [(ngModel)]="currentRoom.description" class="form-control"></textarea>
+      </div>
+      <div class="form-group">
+        <label class="control-label">Price:</label>
+        <input type="text" name="currentPrice" ngModel [(ngModel)]="currentRoom.currentPrice" class="form-control">
+      </div>
+      <div class="form-group">
+        <label class="control-label">Promotion:</label>
+        <input type="checkbox" name="promotion" ngModel [(ngModel)]="currentRoom.promotion" >
+      </div>
+      <div class="form-group">
+        <label class="control-label">Sélection:</label>
+        <input type="checkbox" name="selected" ngModel [(ngModel)]="currentRoom.selected" >
+      </div>
+      <div class="form-group">
+        <label class="control-label">Available:</label>
+        <input type="checkbox" name="available" ngModel [(ngModel)]="currentRoom.available" >
+      </div>
+      <button class="btn btn-success" type="submit">Update</button>
+    </form>
+  </div>
+</div>
+
