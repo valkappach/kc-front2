@@ -2,10 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {EmployeeService} from './employee.service';
 import {HttpErrorResponse} from '@angular/common/http';
 import {NgForm} from '@angular/forms';
-import {CatalogueService} from './services/catalogue.service';
-import {AuthenticationService} from './services/authentication.service';
-import {Router} from '@angular/router';
-import {CaddyService} from './services/caddy.service';
+import {Employee} from './model/employee';
 
 @Component({
   selector: 'app-root',
@@ -15,61 +12,62 @@ import {CaddyService} from './services/caddy.service';
 export class AppComponent implements OnInit{
 
   title: string;
-  roomtypes;
-  public currentRoomtype;
+  public employees: Employee[];
+  public editEmployee: Employee;
+  public deleteEmployee: Employee;
+  constructor(private employeeService: EmployeeService) { }
 
-
-  constructor(private catalogueService: CatalogueService, private router: Router,
-              private authService: AuthenticationService,
-              public caddyService: CaddyService) {
-  }
-
-  ngOnInit() {
-    this.authService.loadUserAuthenticatedUserFromLocalStorage();
-    this.getRoomtypes();
-  }
-  private getRoomtypes() {
-    return this.catalogueService.getRessource("/roomtypes")
-      .subscribe(data=>{
-        this.roomtypes=data;
-      },err => {
-        console.log(err);
-      })
-  }
-
-  getRoomsByRoomtype(rt) {
-    this.currentRoomtype=rt;
-    this.router.navigateByUrl('/rooms/2/'+rt.id);
-  }
-
-  onSelectedRooms() {
-    this.currentRoomtype=undefined;
-    this.router.navigateByUrl("/rooms/1/0");
+  ngOnInit(): void {
+    this.getEmployees();
 
   }
+  //
+  // ngOnInit() {
+  //   this.authService.loadUserAuthenticatedUserFromLocalStorage();
+  //   this.getRoomtypes();
+  // }
+  // private getRoomtypes() {
+  //   return this.catalogueService.getRessource("/roomtypes")
+  //     .subscribe(data=>{
+  //       this.roomtypes=data;
+  //     },err => {
+  //       console.log(err);
+  //     })
+  // }
+  //
+  // getRoomsByRoomtype(rt) {
+  //   this.currentRoomtype=rt;
+  //   this.router.navigateByUrl('/rooms/2/'+rt.id);
+  // }
+  //
+  // onSelectedRooms() {
+  //   this.currentRoomtype=undefined;
+  //   this.router.navigateByUrl("/rooms/1/0");
+  //
+  // }
+  //
+  // onRoomsPromo() {
+  //   this.currentRoomtype=undefined;
+  //   this.router.navigateByUrl("/rooms/3/0");
+  // }
+  //
+  // onRoomsDispo() {
+  //   this.currentRoomtype=undefined;
+  //   this.router.navigateByUrl("/rooms/4/0");
+  // }
+  //
+  //
+  // /*w3_open(){
+  //   return this.displayblock=true;
+  // }*/
+  // /* Swal.fire({
+  //              title: 'Error!',
+  //              text: 'Do you want to continue',
+  //              icon: 'error',
+  //              confirmButtonText: 'Cool'
+  //            })*/
 
-  onRoomsPromo() {
-    this.currentRoomtype=undefined;
-    this.router.navigateByUrl("/rooms/3/0");
-  }
-
-  onRoomsDispo() {
-    this.currentRoomtype=undefined;
-    this.router.navigateByUrl("/rooms/4/0");
-  }
-
-
-  /*w3_open(){
-    return this.displayblock=true;
-  }*/
-  /* Swal.fire({
-               title: 'Error!',
-               text: 'Do you want to continue',
-               icon: 'error',
-               confirmButtonText: 'Cool'
-             })*/
-
-  /*public getEmployees(): void {
+  public getEmployees(): void {
     this.employeeService.getEmployees().subscribe(
       (response: Employee[]) => {
         this.employees = response;
@@ -154,7 +152,7 @@ export class AppComponent implements OnInit{
     }
     container.appendChild(button);
     button.click();
-  }*/
+  }
 
 
 }
